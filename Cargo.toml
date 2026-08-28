@@ -13,3 +13,21 @@ thiserror = "2.0.20"
 time = { version = "0.3.55", features = ["serde"] }
 tokio = { "version" = "1.53.1", features = ["sync"] }
 tracing = "0.1.44"
+
+[lints.clippy]
+arithmetic_side_effects = "deny"
+as_conversions = "deny"
+exit = "deny"
+expect_used = "deny"
+indexing_slicing = "deny"
+nursery = { level = "deny", priority = -1 }  # BETA LINTS
+panic = "deny"
+panic_in_result_fn = "deny"
+pedantic = { level = "deny", priority = -1 }  # UM, ACTUALLY
+string_slice = "deny"
+todo = "deny"
+unchecked_time_subtraction = "deny"
+unimplemented = "deny"
+unreachable = "deny"
+# DENY PANICS
+unwrap_used = "deny"
