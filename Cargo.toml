@@ -5,6 +5,11 @@ edition = "2024"
 license = "MIT"
 
 [dependencies]
+async-trait = "0.1.92"
 axum = "0.8.9"
-serde = "1.0.229"
-tokio = "1.53.1"
+parking_lot = "0.12.5"
+serde = { "version" = "1.0.229", "features" = ["derive"] }
+thiserror = "2.0.20"
+time = { version = "0.3.55", features = ["serde"] }
+tokio = { "version" = "1.53.1", features = ["sync"] }
+tracing = "0.1.44"
