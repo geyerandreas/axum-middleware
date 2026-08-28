@@ -1,0 +1,10 @@
+[package]
+name = "axum-auth"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+
+[dependencies]
+axum = "0.8.9"
+serde = "1.0.229"
+tokio = "1.53.1"
