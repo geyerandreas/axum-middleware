@@ -1,19 +1,8 @@
 use std::fmt::Debug;
 
 use async_trait::async_trait;
-use time::OffsetDateTime;
 
-use crate::session::Record;
-
-impl Record {
-    fn new(expiry_date: OffsetDateTime) -> Self {
-        Self {
-            id: Id::default(),
-            data: Data::default(),
-            expiry_date,
-        }
-    }
-}
+use crate::session_core::{Id, Record};
 
 #[derive(thiserror::Error, Debug)]
 pub enum Error {

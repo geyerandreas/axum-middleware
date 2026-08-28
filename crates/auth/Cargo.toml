@@ -1,0 +1,36 @@
+[package]
+name = "axum-auth"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+
+[dependencies]
+async-trait = "0.1.92"
+axum = "0.8.9"
+base64 = "0.23.1"
+parking_lot = "0.12.5"
+rand = "0.10.2"
+serde = { "version" = "1.0.229", "features" = ["derive"] }
+serde_json = "1.0.151"
+thiserror = "2.0.20"
+time = { version = "0.3.55", features = ["serde"] }
+tokio = { "version" = "1.53.1", features = ["full"] }
+tracing = "0.1.44"
+
+[lints.clippy]
+arithmetic_side_effects = "deny"
+as_conversions = "deny"
+exit = "deny"
+expect_used = "deny"
+indexing_slicing = "deny"
+nursery = { level = "deny", priority = -1 }  # BETA LINTS
+panic = "deny"
+panic_in_result_fn = "deny"
+pedantic = { level = "deny", priority = -1 }  # UM, ACTUALLY
+string_slice = "deny"
+todo = "deny"
+unchecked_time_subtraction = "deny"
+unimplemented = "deny"
+unreachable = "deny"
+# DENY PANICS
+unwrap_used = "deny"

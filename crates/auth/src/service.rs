@@ -1,4 +1,4 @@
-use crate::{AuthnBackend, session::Session};
+use crate::{AuthnBackend, session_core::Session};
 use axum::http::{self, Request, Response};
 use std::{
     pin::Pin,
