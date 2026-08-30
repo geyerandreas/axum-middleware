@@ -94,3 +94,58 @@ impl fmt::Display for TimeoutError {
 }
 
 impl std::error::Error for TimeoutError {}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    struct MockService {
+        delay: Duration,
+    }
+
+    impl Service<String> for MockService {
+        type Response = String;
+        type Error = String;
+        type Future = Pin<Box<dyn Future<Output = Result<String, String>> + Send>>;
+
+        fn poll_ready(&mut self, cx: &mut Context<'_>) -> Poll<Result<(), Self::Error>> {
+            Poll::Ready(Ok(()))
+        }
+
+        fn call(&mut self, req: String) -> Self::Future {
+            let delay = self.delay;
+            Box::pin(async move {
+                tokio::time::sleep(delay).await;
+                Ok(req)
+            })
+        }
+    }
+
+    #[tokio::test]
+    async fn test_timeout_success() {
+        let service = MockService {
+            delay: Duration::from_millis(10),
+        };
+
+        let mut timeout = Timeout::new(service, Duration::from_millis(100));
+        let result = timeout.call("hello".to_string()).await;
+        assert_eq!(result.unwrap(), "hello");
+    }
+
+    #[tokio::test]
+    async fn test_timeout_exceeded() {
+        let service = MockService {
+            delay: Duration::from_millis(100),
+        };
+        let mut timeout = Timeout::new(service, Duration::from_millis(10));
+
+        let result = timeout.call("hello".to_string()).await;
+        assert!(result.is_err());
+    }
+
+    #[test]
+    fn test_timeout_error_display() {
+        let err = TimeoutError(());
+        assert_eq!(err.to_string(), "request timed out");
+    }
+}
