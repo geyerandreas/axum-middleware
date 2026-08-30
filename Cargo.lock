@@ -662,6 +662,7 @@ version = "0.1.0"
 dependencies = [
  "pin-project",
  "tokio",
+ "tower-layer",
  "tower-service",
 ]
 

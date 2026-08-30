@@ -4,12 +4,13 @@ use std::task::{Context, Poll};
 use std::time::Duration;
 use std::{future::Future, pin::Pin};
 use tokio::time::Sleep;
+use tower_layer::Layer;
 use tower_service::Service;
 
 pub type BoxError = Box<dyn std::error::Error + Send + Sync>;
 
 #[derive(Debug, Clone)]
-struct Timeout<S> {
+pub struct Timeout<S> {
     inner: S,
     timeout: Duration,
 }
@@ -95,6 +96,25 @@ impl fmt::Display for TimeoutError {
 
 impl std::error::Error for TimeoutError {}
 
+#[derive(Debug, Clone)]
+pub struct TimeoutLayer {
+    timeout: Duration,
+}
+
+impl TimeoutLayer {
+    pub const fn new(timeout: Duration) -> Self {
+        Self { timeout }
+    }
+}
+
+impl<S> Layer<S> for TimeoutLayer {
+    type Service = Timeout<S>;
+
+    fn layer(&self, inner: S) -> Self::Service {
+        Timeout::new(inner, self.timeout)
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -108,7 +128,7 @@ mod tests {
         type Error = String;
         type Future = Pin<Box<dyn Future<Output = Result<String, String>> + Send>>;
 
-        fn poll_ready(&mut self, cx: &mut Context<'_>) -> Poll<Result<(), Self::Error>> {
+        fn poll_ready(&mut self, _cx: &mut Context<'_>) -> Poll<Result<(), Self::Error>> {
             Poll::Ready(Ok(()))
         }
 

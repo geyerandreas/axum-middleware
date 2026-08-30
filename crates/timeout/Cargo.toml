@@ -10,4 +10,5 @@ path = "src/lib.rs"
 [dependencies]
 pin-project = "1.1.13"
 tokio = "1.53.1"
+tower-layer = "0.3.3"
 tower-service = "0.3.3"
