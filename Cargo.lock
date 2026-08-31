@@ -124,6 +124,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "chaos"
+version = "0.1.0"
+dependencies = [
+ "rand",
+ "tokio",
+ "tower-layer",
+ "tower-service",
+]
+
+[[package]]
 name = "cookies"
 version = "0.1.0"
 
